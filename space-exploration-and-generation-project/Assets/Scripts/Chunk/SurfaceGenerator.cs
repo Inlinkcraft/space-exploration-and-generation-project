@@ -23,7 +23,7 @@ public class SurfaceGenerator
         float[,,] grid = new float[resolutionGridSize, resolutionGridSize, resolutionGridSize];
 
         // Insert all mass points in the grid
-        FloatMass2Grid.generateChunkGrid(chunk, grid, worldOptions);
+        //FloatMass2Grid.generateChunkGrid(chunk, grid, worldOptions);
 
         // Create MarchingCube object
         MarchingCube marchingCube = new MarchingCube(grid, resolutionGridStep, resolutionGridSize);

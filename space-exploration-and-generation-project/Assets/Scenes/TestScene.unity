@@ -580,4 +580,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f8eb4a43eb1f2648bf200807208945d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldMaterial: {fileID: 2100000, guid: cc5a3749f2302dc409af0e99c233bff4, type: 2}
+  terrainShader: {fileID: 7200000, guid: 7098ec3f84b0d3e4eab3c6199057dad8, type: 3}
+  terrainMaterial: {fileID: 2100000, guid: cc5a3749f2302dc409af0e99c233bff4, type: 2}

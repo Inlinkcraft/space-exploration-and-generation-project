@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class World : MonoBehaviour
 {
-    public Material worldMaterial;
 
+    public ComputeShader terrainShader;
+    public Material terrainMaterial;
+    
     private WorldOptions worldOptions;
+
     private MassManager massManager;
 
-    private List<Chunk> chunks;
+    private Queue<ChunkOutTerrainData> chunkToUpdate;
 
+    private List<Chunk> chunks;
 
     void Start()
     {
@@ -23,52 +27,57 @@ public class World : MonoBehaviour
             0.02f  // Density
             );
 
-        massManager = new MassManager(worldOptions);
+        chunkToUpdate = new Queue<ChunkOutTerrainData>();
 
         chunks = new List<Chunk>();
 
-        Chunk chunk = Chunk.createChunk(Vector3.zero, gameObject);
-        chunk.init(worldOptions, worldMaterial);
-        
+        massManager = new MassManager(worldOptions);
 
-        for (int i = 0; i < 30; i++)
-        {
-            chunk.addMassPoint(new PointMass(new Vector3(Random.value * 15f, Random.value * 15f, Random.value * 15f)));
-        }
-
+        // Test
+        chunkToUpdate = new Queue<ChunkOutTerrainData>();
+        Chunk chunk = Chunk.createChunk(Vector3.zero, this);
         chunks.Add(chunk);
-
-        chunk.load();
 
     }
 
     void Update()
     {
-        foreach (Chunk chunk in chunks)
-        {
-            massManager.movePointMassesInChunk(chunk);
-            chunk.load();
+        if(chunkToUpdate.Count > 0){
+            updateChunkMesh(chunkToUpdate.Dequeue());
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        if (chunks == null)
-            return;
-
-        Gizmos.color = Color.red;
+    void OnDestroy(){
+        
+        chunkToUpdate.Clear();
         foreach (Chunk chunk in chunks)
         {
-            foreach (PointMass pointMass in chunk.getPointMasses())
-            {
-                Gizmos.DrawSphere(pointMass.getPosition(),0.1f);
-            }
+            chunk.unLoad();
         }
+
     }
 
     public WorldOptions getWorldOptions()
     {
         return worldOptions;
+    }
+
+    public void terrainUpdate(ChunkOutTerrainData chunkData){
+        chunkToUpdate.Enqueue(chunkData);
+    }
+
+    private void updateChunkMesh(ChunkOutTerrainData chunkData){
+        
+        Mesh mesh = new Mesh();
+        mesh.Clear();
+
+        mesh.vertices = chunkData.vertices;
+        mesh.triangles = chunkData.triangles;
+
+        mesh.RecalculateNormals();
+
+        chunkData.chunkGameObject.GetComponent<MeshFilter>().mesh = mesh;
+
     }
 
 }

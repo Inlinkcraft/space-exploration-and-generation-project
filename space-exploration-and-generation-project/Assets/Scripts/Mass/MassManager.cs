@@ -13,6 +13,7 @@ public class MassManager
         this.worldOptions = worldOptions;
     }
 
+    /*
     public void movePointMassesInChunk(Chunk chunk)
     {
         List<PointMass> pointMasses = chunk.getPointMasses();
@@ -61,7 +62,7 @@ public class MassManager
         }
 
     }
-
+    */
     private Vector3 gravityForce(PointMass currPointMass, PointMass otherPointMass)
     {
 

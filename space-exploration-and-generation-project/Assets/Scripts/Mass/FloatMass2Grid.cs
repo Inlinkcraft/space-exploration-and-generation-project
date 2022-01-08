@@ -6,6 +6,7 @@ public class FloatMass2Grid
 
     public static readonly float MASS_MINIMUM = 0.02f;
 
+    /*
     public static void generateChunkGrid(Chunk chunk, float[,,] grid, WorldOptions worldOptions)
     {
 
@@ -37,7 +38,7 @@ public class FloatMass2Grid
 
         }
     }
-
+    */
     private static void distribute(PointMass pointMass, float gridSpaceSize, float chunkSize, float currMass, float[,,] grid, int[] currMinMax, int[] preMinMax, int iteration = 0)
     {
         SortedList<float, int[]> gridVerticesDistances = new SortedList<float, int[]>();
